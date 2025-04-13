@@ -12,6 +12,6 @@ fi
 
 echo "Copying project files to $NVIM_CONFIG_DIR..."
 mkdir -p "$NVIM_CONFIG_DIR"
-cp -r . "$NVIM_CONFIG_DIR"
+rsync -av --exclude='.git' --exclude='backup.sh' --exclude='install.sh' ./ "$NVIM_CONFIG_DIR"
 
 echo "Installation completed successfully."
