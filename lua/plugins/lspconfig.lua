@@ -65,7 +65,6 @@ function Plugin.config()
 			'ts_ls',
       'html',
       'cssls',
-      'ruby_lsp',
       'lua_ls',
       'tailwindcss'
     },

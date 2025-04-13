@@ -6,7 +6,6 @@ local Plugins = {
   { 'wellle/targets.vim', lazy = true },
   { 'mg979/vim-visual-multi', event = 'VeryLazy' },
   { 'slim-template/vim-slim', ft = 'slim' },
-  { 'numToStr/Comment.nvim', config = true, event = 'VeryLazy' },
 
   -- LSP & Autocompletion
   { 'neovim/nvim-lspconfig' },
