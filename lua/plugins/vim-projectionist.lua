@@ -15,6 +15,12 @@ return {
         ["spec/*_spec.rb"] = {
           alternate = "app/{}.rb",
         },
+        ["lib/*.rb"] = {
+          alternate = "spec/lib/{}_spec.rb"
+        },
+        ["spec/lib/*_spec.rb"] = {
+          alternate = "lib/{}.rb"
+        },
         ["app/javascript/deprecated/*.js"] = {
           alternate = { "spec-webpack/javascripts/{}.test.js" },
         },
