@@ -2,79 +2,61 @@ return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
-      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+      { "github/copilot.vim" }, -- Alternative: zbirenbaum/copilot.lua
+      { "nvim-lua/plenary.nvim", branch = "master" }, -- For utility functions
     },
-    build = "make tiktoken", -- Only on MacOS or Linux
+    build = "make tiktoken", -- Build command for macOS/Linux
     opts = {
-      temperature = 0.1, -- GPT result temperature
+      temperature = 0.1, -- Controls GPT response randomness
+      headless = false, -- Use history without writing to chat buffer
 
-      headless = false, -- Do not write to chat buffer and use history(useful for using callback for custom processing)
-
-      -- default window options
+      -- Window configuration
       window = {
-        layout = 'vertical', -- 'vertical', 'horizontal', 'float', 'replace'
-        width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
-        height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
-        -- Options below only apply to floating windows
-        relative = 'editor', -- 'editor', 'win', 'cursor', 'mouse'
-        border = 'single', -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
-        row = nil, -- row position of the window, default is centered
-        col = nil, -- column position of the window, default is centered
-        title = 'Copilot Chat', -- title of chat window
-        footer = nil, -- footer of chat window
-        zindex = 1, -- determines if window is on top or below other floating windows
+        layout = 'vertical', -- Options: 'vertical', 'horizontal', 'float', 'replace'
+        width = 0.5, -- Fractional or absolute width
+        height = 0.5, -- Fractional or absolute height
+        relative = 'editor', -- Position relative to 'editor', 'win', 'cursor', or 'mouse'
+        border = 'single', -- Window border style
+        title = 'Copilot Chat', -- Chat window title
+        zindex = 1, -- Window stacking order
       },
 
-      show_help = true, -- Shows help message as virtual lines when waiting for user input
-      show_folds = true, -- Shows folds for sections in chat
-      highlight_selection = true, -- Highlight selection
-      highlight_headers = true, -- Highlight headers in chat, disable if using markdown renderers (like render-markdown.nvim)
-      auto_follow_cursor = true, -- Auto-follow cursor in chat
-      auto_insert_mode = false, -- Automatically enter insert mode when opening window and on new prompt
-      insert_at_end = false, -- Move cursor to end of buffer when inserting text
-      clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
+      -- Feature toggles
+      show_help = true, -- Display help messages
+      show_folds = true, -- Enable fold sections in chat
+      highlight_selection = true, -- Highlight selected text
+      highlight_headers = true, -- Highlight headers in chat
+      auto_follow_cursor = true, -- Follow cursor automatically
+      auto_insert_mode = false, -- Enter insert mode on new prompt
+      insert_at_end = false, -- Move cursor to buffer end on insert
+      clear_chat_on_new_prompt = false, -- Clear chat for new prompts
 
-      -- Static config starts here (can be configured only via setup function)
-      debug = false, -- Enable debug logging (same as 'log_level = 'debug')
-      log_level = 'info', -- Log level to use, 'trace', 'debug', 'info', 'warn', 'error', 'fatal'
-      proxy = nil, -- [protocol://]host[:port] Use this proxy
-      allow_insecure = false, -- Allow insecure server connections
+      -- Static configurations
+      debug = false, -- Enable debug logging
+      log_level = 'info', -- Logging level
+      proxy = nil, -- Proxy settings
+      allow_insecure = false, -- Allow insecure connections
 
-      chat_autocomplete = true, -- Enable chat autocompletion (when disabled, requires manual `mappings.complete` trigger)
-      history_path = vim.fn.stdpath('data') .. '/copilotchat_history', -- Default path to stored history
+      chat_autocomplete = true, -- Enable chat autocompletion
+      history_path = vim.fn.stdpath('data') .. '/copilotchat_history', -- History file path
 
-      question_header = '# User ', -- Header to use for user questions
-      answer_header = '# Copilot ', -- Header to use for AI answers
-      error_header = '# Error ', -- Header to use for errors
-      separator = '───', -- Separator to use in chat
+      -- Headers and separators
+      question_header = '# User ',
+      answer_header = '# Copilot ',
+      error_header = '# Error ',
+      separator = '───',
 
-      -- default contexts
+      -- Context providers
       contexts = {
-        buffer = {
-          -- see config.lua for implementation
-        },
-        buffers = {
-          -- see config.lua for implementation
-        },
-        file = {
-          -- see config.lua for implementation
-        },
-        files = {
-          -- see config.lua for implementation
-        },
-        git = {
-          -- see config.lua for implementation
-        },
-        url = {
-          -- see config.lua for implementation
-        },
-        register = {
-          -- see config.lua for implementation
-        },
+        buffer = {},
+        buffers = {},
+        file = {},
+        files = {},
+        git = {},
+        url = {},
+        register = {},
       },
 
-      -- default prompts
       prompts = {
         Explain = {
           prompt = '> /COPILOT_EXPLAIN\n\nWrite an explanation for the selected code as paragraphs of text.',
@@ -100,53 +82,21 @@ return {
         },
       },
 
-      -- default mappings
+      -- Key mappings
       mappings = {
-        complete = {
-          insert = '<Tab>',
-        },
-        close = {
-          normal = 'q',
-          insert = '<C-c>',
-        },
-        reset = {
-          normal = '<C-r>',
-          insert = '<C-r>',
-        },
-        submit_prompt = {
-          normal = '<CR>',
-          insert = '<C-s>',
-        },
-        toggle_sticky = {
-          detail = 'Makes line under cursor sticky or deletes sticky line.',
-          normal = 'gr',
-        },
-        accept_diff = {
-          normal = '<C-y>',
-          insert = '<C-y>',
-        },
-        jump_to_diff = {
-          normal = 'gj',
-        },
-        quickfix_diffs = {
-          normal = 'gq',
-        },
-        yank_diff = {
-          normal = 'gy',
-          register = '"',
-        },
-        show_diff = {
-          normal = 'gd',
-        },
-        show_info = {
-          normal = 'gi',
-        },
-        show_context = {
-          normal = 'gc',
-        },
-        show_help = {
-          normal = 'gh',
-        },
+        complete = { insert = '<C-l>' },
+        close = { normal = 'q', insert = '<C-c>' },
+        reset = { normal = '<C-r>', insert = '<C-r>' },
+        submit_prompt = { normal = '<CR>', insert = '<C-s>' },
+        toggle_sticky = { normal = 'gr' },
+        accept_diff = { normal = '<C-y>', insert = '<C-y>' },
+        jump_to_diff = { normal = 'gj' },
+        quickfix_diffs = { normal = 'gq' },
+        yank_diff = { normal = 'gy', register = '"' },
+        show_diff = { normal = 'gd' },
+        show_info = { normal = 'gi' },
+        show_context = { normal = 'gc' },
+        show_help = { normal = 'gh' },
       },
     },
   },

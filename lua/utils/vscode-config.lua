@@ -11,11 +11,13 @@ function M.get_vscode_config()
 
   if vim.fn.filereadable(config_path) == 1 then
     local ok, content = pcall(vim.fn.readfile, config_path)
-    if ok and content then
+    if ok and content and #content > 0 then
       local json = table.concat(content, "\n")
-      local decoded = vim.fn.json_decode(json)
-      if type(decoded) == "table" then
-        return decoded
+      if json and json:match("%S") then  -- Pastikan string tidak kosong atau hanya whitespace
+        local success, decoded = pcall(vim.fn.json_decode, json)
+        if success and type(decoded) == "table" then
+          return decoded
+        end
       end
     end
   end

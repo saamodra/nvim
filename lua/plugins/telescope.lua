@@ -1,6 +1,5 @@
 local Plugin = {
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
   dependencies = {
     { "nvim-lua/plenary.nvim" },
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -16,6 +15,7 @@ local map = require("utils.map").map
 function Plugin.init()
   map("n", "<C-P>", "<cmd>Telescope find_files<cr>", "Find Files (Ctrl+P)")
   map("n", "<C-F>", "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Search in Buffer")
+  map({ "n", "v" }, "<leader>fa", "<cmd>CopilotChatPrompts<cr>", "AI Prompts")
   map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", "Open Buffers")
   map("n", "<leader>fc", "<cmd>Telescope cmdline<cr>", "Cmdline")
   map("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", "Diagnostics")
@@ -48,6 +48,10 @@ function Plugin.config()
         i = {
           ["<C-j>"] = actions.move_selection_next,
           ["<C-k>"] = actions.move_selection_previous,
+          ["<C-f>"] = actions.preview_scrolling_down,
+          ["<C-b>"] = actions.preview_scrolling_up,
+          ["<C-h>"] = actions.preview_scrolling_left,
+          ["<C-l>"] = actions.preview_scrolling_right,
           ["<C-u>"] = MultiMove(actions.move_selection_previous, 4),
           ["<C-d>"] = MultiMove(actions.move_selection_next, 4),
           ["<Tab>"] = actions.toggle_selection + actions.move_selection_next,

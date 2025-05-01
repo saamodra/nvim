@@ -25,8 +25,8 @@ map('n', '<leader>cp', '<cmd>cprev<cr>', "Quickfix Previous")
 map('n', '<leader>ct', '<cmd>TailwindSort<cr>', "Tailwind Sort")
 map('v', '<leader>ct', '<cmd>TailwindSortSelection<cr>', "Tailwind Sort Selection")
 
-map('n', '<leader>yr', '<cmd>lua CopyRelativeFilePath()<cr>', "Copy relative file path")
-map('n', '<leader>yp', '<cmd>lua GetYamlPath()<cr>', "Copy YAML path")
+map('n', '<leader>yp', '<cmd>lua CopyRelativeFilePath()<cr>', "Copy relative file path")
+map('n', '<leader>yy', '<cmd>lua GetYamlPath()<cr>', "Copy YAML path")
 
 
 -- Git keymaps

@@ -66,6 +66,7 @@ function Plugin.config()
       'html',
       'cssls',
       'lua_ls',
+      'ruby_lsp',
       'tailwindcss'
     },
     handlers = {
@@ -118,6 +119,7 @@ function user.on_attach()
   bufmap({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>', "Format Code")
   bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>', "Code Action")
   bufmap('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<cr>', "Code Action")
+  bufmap('v', 'ga', '<cmd>lua vim.lsp.buf.range_code_action()<cr>', "Code Action")
   bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', "Show Diagnostic Float")
   bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>', "Go to Previous Diagnostic")
   bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>', "Go to Next Diagnostic")
