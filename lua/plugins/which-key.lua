@@ -20,7 +20,7 @@ return {
       { "<leader>ff", desc = "Find Files" },
       { "<leader>fg", desc = "Live Grep" },
       { "<leader>fd", desc = "Diagnostics" },
-      { "<leader>fs", desc = "Search in Buffer" },
+      { "<leader>fs", desc = "Git Status" },
 
       { "<leader>g", group = "Git" },
       { "<leader>gs", desc = "Git Status" },
@@ -50,8 +50,6 @@ return {
       { "<leader>tf", icon = "" },
       { "<leader>tr", icon = "" },
       { "<leader>y", icon = "󰆏" },
-      { "<leader>yr", icon = "󰆏" },
-      { "<leader>yp", icon = "󰆏" },
 
       { "<leader>?", icon = "󰋗" },
     })
