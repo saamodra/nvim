@@ -24,6 +24,9 @@ return {
         ["app/javascript/deprecated/*.js"] = {
           alternate = { "spec-webpack/javascripts/{}.test.js" },
         },
+        ["app/javascript/*.js"] = {
+          alternate = { "app/javascript/{}.test.js" },
+        },
         ["spec-webpack/javascripts/*.test.js"] = {
           alternate = { "app/javascript/deprecated/{}.js" },
         },
