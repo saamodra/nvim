@@ -26,8 +26,7 @@ mv ~/.config/nvim ~/.config/nvim.bak
 Clone this repository:
 ```sh
 git clone https://github.com/saamodra/nvim.git
-cd dotfiles
-cp -r .config/nvim ~/.config/nvim
+cp -r nvim ~/.config/nvim
 ```
 
 ### 3. Install Plugins

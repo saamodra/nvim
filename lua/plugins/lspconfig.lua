@@ -3,7 +3,10 @@ local user = {}
 
 Plugin.dependencies =  {
   {'hrsh7th/cmp-nvim-lsp'},
-  {'williamboman/mason-lspconfig.nvim'},
+  {
+    'williamboman/mason-lspconfig.nvim',
+    dependencies = {'williamboman/mason.nvim'}
+  },
 }
 
 Plugin.cmd = {'LspInfo', 'LspInstall', 'LspUnInstall'}
@@ -47,7 +50,6 @@ function Plugin.init()
 end
 
 function Plugin.config()
-  local lspconfig = require('lspconfig')
   local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
   local group = vim.api.nvim_create_augroup('lsp_cmds', {clear = true})
@@ -69,16 +71,20 @@ function Plugin.config()
       'ruby_lsp',
       'tailwindcss'
     },
+
     handlers = {
-      -- See :help mason-lspconfig-dynamic-server-setup
-      function(server)
-        -- See :help lspconfig-setup
-        lspconfig[server].setup({
+      -- Default handler for all servers
+      function(server_name)
+        vim.lsp.config({
+          name = server_name,
           capabilities = lsp_capabilities,
         })
       end,
+
+      -- Specific handlers for servers that need custom configuration
       ['ts_ls'] = function()
-        lspconfig.ts_ls.setup({
+        vim.lsp.config({
+          name = 'ts_ls',
           capabilities = lsp_capabilities,
           settings = {
             completions = {
@@ -87,15 +93,58 @@ function Plugin.config()
           }
         })
       end,
+
       ['tailwindcss'] = function()
-        lspconfig.tailwindcss.setup {}
+        vim.lsp.config({
+          name = 'tailwindcss',
+          capabilities = lsp_capabilities,
+        })
       end,
+
       ['lua_ls'] = function()
-        require('plugins.lsp.lua_ls')
+        local runtime_path = vim.split(package.path, ';')
+        table.insert(runtime_path, 'lua/?.lua')
+        table.insert(runtime_path, 'lua/?/init.lua')
+
+        vim.lsp.config({
+          name = 'lua_ls',
+          capabilities = lsp_capabilities,
+          settings = {
+            Lua = {
+              runtime = {
+                -- Tell the language server which version of Lua you're using
+                version = 'LuaJIT',
+                path = runtime_path
+              },
+              diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {'vim'}
+              },
+              workspace = {
+                library = {
+                  -- Make the server aware of Neovim runtime files
+                  vim.fn.expand('$VIMRUNTIME/lua'),
+                  vim.fn.stdpath('config') .. '/lua'
+                },
+                checkThirdParty = false
+              },
+              telemetry = {
+                enable = false
+              },
+            }
+          }
+        })
       end,
-			['eslint'] = function()
-        require('plugins.lsp.eslint')
-			end
+
+      ['eslint'] = function()
+        local home = vim.fn.expand("~")
+        vim.lsp.config({
+          name = 'eslint',
+          capabilities = lsp_capabilities,
+          cmd = { home .. '/.local/share/nvim/mason/bin/vscode-eslint-language-server', '--stdio' },
+          filetypes = { 'javascript', 'typescript', 'typescriptreact', 'javascriptreact' },
+        })
+      end
     }
   })
 end
@@ -126,4 +175,3 @@ function user.on_attach()
 end
 
 return Plugin
-

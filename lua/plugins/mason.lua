@@ -4,12 +4,11 @@ Plugin.lazy = false
 
 -- See :help mason-settings
 Plugin.opts = {
-  ui = {border = 'rounded'},
-	ensure_installed = {
-		'eslint-lsp',
-		'typescript-language-server',
-	}
+  ui = {border = 'rounded'}
 }
 
-return Plugin
+function Plugin.config()
+  require('mason').setup(Plugin.opts)
+end
 
+return Plugin
