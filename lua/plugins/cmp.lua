@@ -5,7 +5,6 @@ Plugin.dependencies = {
   {'hrsh7th/cmp-buffer'},
   {'hrsh7th/cmp-path'},
   {'saadparwaiz1/cmp_luasnip'},
-  {'hrsh7th/cmp-nvim-lsp'},
 
   -- Snippets
   {'L3MON4D3/LuaSnip'},
@@ -39,7 +38,7 @@ function Plugin.config()
     },
     sources = {
       {name = 'path'},
-      {name = 'nvim_lsp'},
+      {name = 'lsp'},
       {name = 'copilot', group_index = 2},
       {name = 'buffer', keyword_length = 3},
       {name = 'luasnip', keyword_length = 2},

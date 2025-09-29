@@ -8,7 +8,6 @@ local Plugins = {
   { 'slim-template/vim-slim', ft = 'slim' },
 
   -- LSP & Autocompletion
-  { 'neovim/nvim-lspconfig' },
   { 'hrsh7th/nvim-compe', event = 'InsertEnter' },
   { 'onsails/lspkind.nvim', lazy = true },
 
