@@ -1,0 +1,1 @@
+/home/samodra/.config/omarchy/current/theme/neovim.lua
