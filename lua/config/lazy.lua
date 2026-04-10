@@ -31,7 +31,6 @@ function CopyRelativeFilePath()
   vim.fn.setreg('+', filepath)
   print("Relative file path copied to clipboard: " .. filepath)
 end
-
 vim.api.nvim_create_user_command('CopyRelativeFilePath', CopyRelativeFilePath, {})
 
 require("lazy").setup({
