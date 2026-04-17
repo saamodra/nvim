@@ -7,5 +7,6 @@ local map = require('utils.map').map
 
 map('n', '<leader>yp', '<cmd>lua CopyRelativeFilePath()<cr>', "Copy relative file path")
 map('n', '<leader>cw', '<cmd>lua StripTrailingWhitespaces()<cr>', "Strip trailing whitespaces")
+map('v', '<leader>y', '"+y', "Copy to local clipboard")
 
 vim.keymap.set("n", "<C-p>", LazyVim.pick("files", { root = false }), { desc = "Find Files" })

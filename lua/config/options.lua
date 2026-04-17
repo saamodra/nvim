@@ -3,7 +3,7 @@
 -- Add any additional options here
 vim.opt.relativenumber = false
 vim.g.autoformat = false
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = ""
 
 local function osc52_copy(lines)
   local text = table.concat(lines, "\n")
