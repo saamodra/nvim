@@ -3,35 +3,24 @@
 -- Add any additional options here
 vim.opt.relativenumber = false
 vim.g.autoformat = false
-vim.opt.clipboard = ""
-
-local function osc52_copy(lines)
-  local text = table.concat(lines, "\n")
-  local b64 = vim.base64.encode(text)
-
-  local seq
-  if vim.env.TMUX then
-    seq = "\x1bPtmux;\x1b\x1b]52;c;" .. b64 .. "\x07\x1b\\"
-  else
-    seq = "\x1b]52;c;" .. b64 .. "\x07"
-  end
-
-  io.stdout:write(seq)
-  io.stdout:flush()
-end
+vim.opt.clipboard = "unnamedplus"
 
 vim.g.clipboard = {
-  name = "osc52",
+  name = "tmux-osc52-copy",
   copy = {
-    ["+"] = osc52_copy,
-    ["*"] = osc52_copy,
+    ["+"] = function(lines, _)
+      vim.fn.system(vim.fn.expand("~/.local/bin/tmux-osc52-copy"), table.concat(lines, "\n"))
+    end,
+    ["*"] = function(lines, _)
+      vim.fn.system(vim.fn.expand("~/.local/bin/tmux-osc52-copy"), table.concat(lines, "\n"))
+    end,
   },
   paste = {
     ["+"] = function()
-      return { vim.fn.split(vim.fn.getreg('"'), "\n"), vim.fn.getregtype('"') }
+      return { vim.fn.getreg('"'), vim.fn.getregtype('"') }
     end,
     ["*"] = function()
-      return { vim.fn.split(vim.fn.getreg('"'), "\n"), vim.fn.getregtype('"') }
+      return { vim.fn.getreg('"'), vim.fn.getregtype('"') }
     end,
   },
 }
