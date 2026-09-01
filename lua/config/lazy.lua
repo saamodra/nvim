@@ -14,6 +14,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
+  pattern = "*.slim",
+  command = "setlocal filetype=slim"
+})
+
 function StripTrailingWhitespaces()
   local _s = vim.fn.getreg('/')
   local l = vim.fn.line('.')
