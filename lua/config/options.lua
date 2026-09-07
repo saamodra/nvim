@@ -5,23 +5,22 @@ vim.opt.relativenumber = false
 vim.g.autoformat = false
 vim.opt.clipboard = "unnamedplus"
 
-vim.g.clipboard = {
-  name = "tmux-osc52-copy",
-  copy = {
-    ["+"] = function(lines, _)
-      vim.fn.system(vim.fn.expand("~/.local/bin/tmux-osc52-copy"), table.concat(lines, "\n"))
-    end,
-    ["*"] = function(lines, _)
-      vim.fn.system(vim.fn.expand("~/.local/bin/tmux-osc52-copy"), table.concat(lines, "\n"))
-    end,
-  },
-  paste = {
-    ["+"] = function()
-      return { vim.fn.getreg('"', 1, true), vim.fn.getregtype('"') }
-    end,
-    ["*"] = function()
-      return { vim.fn.getreg('"', 1, true), vim.fn.getregtype('"') }
-    end,
-  },
-}
-
+if vim.env.TMUX then
+  vim.g.clipboard = {
+    name = "tmux-osc52-copy",
+    copy = {
+      ["+"] = { vim.fn.expand("~/.local/bin/tmux-osc52-copy") },
+      ["*"] = { vim.fn.expand("~/.local/bin/tmux-osc52-copy") },
+    },
+    paste = {
+      ["+"] = function()
+        return { vim.fn.getreg('"', 1, true), vim.fn.getregtype('"') }
+      end,
+      ["*"] = function()
+        return { vim.fn.getreg('"', 1, true), vim.fn.getregtype('"') }
+      end,
+    },
+  }
+else
+  vim.g.clipboard = "osc52"
+end
